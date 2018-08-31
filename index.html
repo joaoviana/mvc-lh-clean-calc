@@ -3,36 +3,56 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>MVC-LH TODO</title>
+    <title>MVC-LH CALC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="step-4.js"></script>
+    <script src="step-10.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 </head>
 <body>
 
-    <h1>MVC-LH TODO</h1>
+    <h1>MVC-LH CALC</h1>
 
-    <div>
-        <button onclick="handler.add_todo()"> Add </button>
-        <input id = "addTodoTextInput" type="text">
-    </div>
-    <div>
-        <button onclick="handler.update_one()"> Update one </button>
-        <input id = "positionInput" type="number">
-        <input id = "newTodoTextInput" type="text">
-    </div>
-    <div>
-        <button onclick="handler.delete_one()"> Delete one </button>
-        <input id = "positionInputDelete" type="number">
-    </div>
-    <div>
-         <button onclick="handler.read_all()"> Read All </button>
+    <div class= "buttons">
+        <button id="add" onclick="handler.test(this)" >+</button>
+        <button id="subtract" onclick="handler.test(this)">-</button>
+        <button id="multiply" onclick="handler.test(this)">x</button>
+        <button id="divide" onclick="handler.test(this)">/</button>
     </div>
 
-    <ul>
+    <div class="args">
+        <p>Inputs: </p>
+        <input id="arg1"type="number">
+        <input id="arg2"type="number">
+    </div>
 
-    </ul>
-  
+    <div class="result">
+        <p>Result:</p>
+        <p id= "result-text"></p>
+        <br>
+    </div>
+
+    <div>
+        <input type="number" id="set-last-result">
+        <button onclick="handler.set_last_result()"> Set Last Result as: </button>
+    </div>
+
+    <div class= "test">
+        <input type="checkbox" id="checked"> Test It!(On/Off)
+        <br>
+        <p>Expected: </p>
+        <input id="expected" type="number">
+        <p id="test"> </p>
+    </div>
+
+
+
+    <div>
+        <button onclick="handler.read_history()">History</button>
+        <button onclick="handler.clear_call_history()">Clear History</button>
+        <ul id="history-list">
+
+        </ul>
+    </div>
 </body>
 
 </html>

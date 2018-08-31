@@ -1,23 +1,46 @@
 * {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 40px;
 }
 
-div {
+/* div {
     margin-left: 50px;
     margin-top: 50px;
-
-}
+} */
 
 h1 {
+    font-size: 30px;
     text-align: center;
     color: coral;
 }
 
-button {
-    size: 20px;
+.buttons button{
+    border-radius: 20px;
+    padding: 10px;
+    margin-left: 10px;
+    font-family: monospace;
+    font-size: 20px;
+    text-align: center;
+    transition-duration: 0.4s;
+    width: 20%;
 }
 
-button:hover{
-    background: coral;
+.buttons button:hover{
+    background-color: coral; /* Green */
+    color: white;
+}
+.buttons button:focus{
+    outline: none;
+}
+
+.args input{
+    display: inline-block;
+    font-size: 10px;
+    padding: 20px;
+    margin-top: 10px;
+    size: 10px;
+}
+
+.result {
+    box-sizing: border-box;
+    font-size: 20px;
 }

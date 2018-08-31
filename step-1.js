@@ -1,31 +1,45 @@
-// set up all of the objects that we'll need
-// our application will run in the console
 
 
-//add_todo; read from the UI & call the controller
+// call_add: reads, cleans & passes on inputs
 let handler = {
-    add_todo: function(){
-        var addTodoTextInput = document.getElementById("addTodoTextInput");
-        controller.add_todo(addTodoTextInput.value);
-        addTodoTextInput.value = "";
+    call_add: function(){
+        var arg1 = document.getElementById("arg1");
+        var arg2 = document.getElementById("arg2");
+
+        controller.add(arg1.valueAsNumber, arg2.valueAsNumber);
+
+        arg1.textContent= "";
+        arg2.textContent="";
     }
+
 };
 
 
-//add_todo; add new todo to the model
+// add: passes two numbers through logic.add & calls view
 let controller = {
-    add_todo: function(todoText){
-        model.add_todo(todoText);
+    add: function(arg1, arg2){
+        let result;
+        result = logic.add(arg1,arg2);
+        view.display(result);
+    }
+};
+
+let model = {
+};
+
+// add: adds two numbers & returns the result
+let logic = {
+    add: function(arg1, arg2){
+        return (arg1+arg2);
     }
 };
 
 
-// create; save the new todo
-let model = {
-  todos: [],
-  add_todo: function(todoText){
-      this.todos.push(todoText);
-  }
+// render: draws result to the UI
+let view = {
+    display: function(result){
+        var displayResult = document.getElementById("result-text");
+        displayResult.textContent = '';
+        displayResult.textContent = result;
+    }
 };
-
-let view = {};

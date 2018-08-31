@@ -1,66 +1,77 @@
 
-// update_one; read old item and new value from UI. Call the controller
 let handler = {
-    add_todo: function(){
-        var addTodoTextInput = document.getElementById("addTodoTextInput");
-        controller.add_todo(addTodoTextInput.value);
-        addTodoTextInput.value = "";
-    },
-    read_all: function(){
-        controller.read_all();
-    }, 
-    update_one: function(){
-        var positionInput = document.getElementById("positionInput");
-        var newTodoTextInput = document.getElementById("newTodoTextInput");
+    call_add: function(){
+        var arg1 = document.getElementById("arg1");
+        var arg2 = document.getElementById("arg2");
 
-        controller.update_one(positionInput, newTodoTextInput);
-         
-        positionInput.value = "";
-        newTodoTextInput.value = "";
+        controller.add(arg1.valueAsNumber, arg2.valueAsNumber);
+
+        arg1.value = ' ';
+        arg2.value = ' ';
+
+    },
+    call_subtract: function(){
+        var arg1 = document.getElementById("arg1");
+        var arg2 = document.getElementById("arg2");
+
+        controller.subtract(arg1.valueAsNumber, arg2.valueAsNumber);
+
+        arg1.value = ' ';
+        arg2.value = ' ';
     }
 };
 
 
-// update_one; call the model to update the correct entry, call view to display new todo list
+// refactor call_add & call_subtract to read from model when needed, and write new result to model
 let controller = {
-    add_todo: function(todoText){
-        model.add_todo(todoText);
-        view.read_all(model.read_all());
+    add: function(arg1, arg2){
+        let result;
+        if(isNaN(arg2)){
+            result = logic.add(arg1,model.read_last_result());
+        } else {
+            result = logic.add(arg1, arg2);
+        }
+        model.set_last_result(result);
+        view.display(result);
     },
-    read_all: function() {
-        view.read_all(model.read_all());
-    },
-    update_one: function(position, todoText){
-        model.update_one(position, todoText);
-        view.read_all(model.read_all());
+    subtract: function(arg1, arg2){
+        let result;
+        if(isNaN(arg2)){
+            result = logic.subtract(arg1,model.read_last_result());
+            console.log(result);
+        } else {
+            result = logic.subtract(arg1, arg2);
+        }
+        model.set_last_result(result);
+        view.display(result);
     }
 };
 
 
-// update_one; updates the correct entry in memory
+// set_last_result, read_last_result	
 let model = {
-    todos: [],
-    add_todo: function(todoText){
-        this.todos.push(todoText);
+    lastResult: 0000,
+    read_last_result: function(){
+        return this.lastResult;
     },
-    read_all: function(){
-        return this.todos;
+    set_last_result: function(lastResult){
+        this.lastResult = lastResult;
+    }
+};
+
+let logic = {
+    add: function(arg1, arg2){
+        return (arg1+arg2);
     },
-    update_one: function(position, todoText){
-        this.todos[position] = todoText;
+    subtract: function(arg1,arg2){
+        return (arg1-arg2);
     }
 };
 
 
 let view = {
-    read_all: function(items){
-        var todosUl = document.querySelector('ul');
-        todosUl.innerHTML = ''; //will clear out the ul before adding
-
-        for ( var i = 0; i < items.length ; i++){
-          var todoLi = document.createElement('li');
-          todoLi.textContent = items[i];
-          todosUl.appendChild(todoLi);
-        }
+    display: function(result){
+        var displayResult = document.getElementById("result-text");
+        displayResult.textContent = result;
     }
 };

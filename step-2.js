@@ -1,49 +1,63 @@
 
-//read_all; call the controller
+
+// call_subtract: reads, cleans & passes on inputs
 let handler = {
-    add_todo: function(){
-        var addTodoTextInput = document.getElementById("addTodoTextInput");
-        controller.add_todo(addTodoTextInput.value);
-        addTodoTextInput.value = "";
+    call_add: function(){
+        var arg1 = document.getElementById("arg1");
+        var arg2 = document.getElementById("arg2");
+
+        controller.add(arg1.valueAsNumber, arg2.valueAsNumber);
+
+        arg1.textContent= " ";
+        arg2.textContent=" ";
     },
-    read_all: function(){
-        controller.read_all();
+    call_subtract: function(){
+        var arg1 = document.getElementById("arg1");
+        var arg2 = document.getElementById("arg2");
+
+        controller.subtract(arg1.valueAsNumber, arg2.valueAsNumber);
+
+        arg1.textContent=" ";
+        arg2.textContent=" ";
     }
+
 };
 
 
-//read_all; read all from the model, call the view to display everything
+// subtract: passes two numbers through logic.subtract & calls view
 let controller = {
-    add_todo: function(todoText){
-        model.add_todo(todoText);
+    add: function(arg1, arg2){
+        let result;
+        result = logic.add(arg1,arg2);
+        view.display(result);
     },
-    read_all: function() {
-        view.read_all(model.read_all());
+    subtract: function(arg1, arg2){
+        let result;
+        result = logic.subtract(arg1,arg2);
+        view.display(result);
+    }
+};
+
+let model = {
+
+};
+
+// subtract: subtracts two numbers & returns the result	
+let logic = {
+    add: function(arg1, arg2){
+        return (arg1+arg2);
+    },
+    subtract: function(arg1,arg2){
+        return (arg1-arg2);
     }
 };
 
 
-// read_all; return everything in memory
-let model = {
-  todos: [],
-  add_todo: function(todoText){
-      this.todos.push(todoText);
-  },
-  read_all: function(){
-      return this.todos;
-  }
-};
-
-// display_all; display all items to the UI
+// render: draws result to the UI
 let view = {
-    read_all: function(items){
-        var todosUl = document.querySelector('ul');
-        todosUl.innerHTML = ''; //will clear out the ul before adding
-
-        for ( var i = 0; i < items.length ; i++){
-          var todoLi = document.createElement('li');
-          todoLi.textContent = items[i];
-          todosUl.appendChild(todoLi);
-        }
-      }
+    display: function(result){
+        var displayResult = document.getElementById("result-text");
+        displayResult.textContent = ' ';
+        displayResult.textContent = result;
+    }
 };

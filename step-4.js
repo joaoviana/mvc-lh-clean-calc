@@ -1,80 +1,105 @@
 
-// delete_one; reads user input and calls the controller
+
+// operate: reads operation, a, b. calls controller
 let handler = {
-    add_todo: function(){
-        var addTodoTextInput = document.getElementById("addTodoTextInput");
-        controller.add_todo(addTodoTextInput.value);
-        addTodoTextInput.value = "";
-    },
-    read_all: function(){
-        controller.read_all();
-    }, 
-    update_one: function(){
-        var positionInput = document.getElementById("positionInput");
-        var newTodoTextInput = document.getElementById("newTodoTextInput");
+    operate: function(button){
+        var arg1 = document.getElementById("arg1");
+        var arg2 = document.getElementById("arg2");
 
-        controller.update_one(positionInput.value, newTodoTextInput.value);
-         
-        positionInput.value = "";
-        newTodoTextInput.value = "";
-    },
-    delete_one: function() {
-        var positionInputDelete = document.getElementById("positionInputDelete");
-
-        controller.delete_one(positionInputDelete.value);
-
-        positionInputDelete = "";
+        controller.operate(button.id, arg1.valueAsNumber, arg2.valueAsNumber);
+        arg1.value = ' ';
+        arg2.value = ' ';
     }
+    /*,
+    call_add: function(){
+        var arg1 = document.getElementById("arg1");
+        var arg2 = document.getElementById("arg2");
+
+       // controller.add(arg1.valueAsNumber, arg2.valueAsNumber);
+
+        arg1.value = ' ';
+        arg2.value = ' ';
+
+    },
+    call_subtract: function(){
+        var arg1 = document.getElementById("arg1");
+        var arg2 = document.getElementById("arg2");
+
+        controller.subtract(arg1.valueAsNumber, arg2.valueAsNumber);
+
+        arg1.value = ' ';
+        arg2.value = ' ';
+    }*/
 };
 
-
-// delete_one; calls the model to delete said item, displays to todo list
+// operate: args - operation(str), a(num), b(num). uses indicated operation & reads/writes last_result
 let controller = {
-    add_todo: function(todoText){
-        model.add_todo(todoText);
-        view.read_all(model.read_all());
-    },
-    read_all: function() {
-        view.read_all(model.read_all());
-    },
-    update_one: function(position, todoText){
-        model.update_one(position, todoText);
-        view.read_all(model.read_all());
-    },
-    delete_one: function(position){
-        model.delete_one(position);
-        view.read_all(model.read_all());
+    operate: function(operation, arg1, arg2){
+        let result;
+
+        if(isNaN(arg2)){
+            result = logic[operation](arg1,model.read_last_result());
+        } else {
+            result = logic[operation](arg1, arg2);
+        }
+        model.set_last_result(result);
+        view.display(result);
     }
+    /*
+    add: function(arg1, arg2){
+        let result;
+        if(isNaN(arg2)){
+            result = logic.add(arg1,model.read_last_result());
+        } else {
+            result = logic.add(arg1, arg2);
+        }
+        model.set_last_result(result);
+        view.display(result);
+    },
+    subtract: function(arg1, arg2){
+        let result;
+        if(isNaN(arg2)){
+            result = logic.subtract(arg1,model.read_last_result());
+            console.log(result);
+        } else {
+            result = logic.subtract(arg1, arg2);
+        }
+        model.set_last_result(result);
+        view.display(result);
+    }
+    */
 };
 
 
-// delete_one; deletes selected item from memory
 let model = {
-    todos: [],
-    add_todo: function(todoText){
-        this.todos.push(todoText);
+    lastResult: 0000,
+    read_last_result: function(){
+        return this.lastResult;
     },
-    read_all: function(){
-        return this.todos;
+    set_last_result: function(lastResult){
+        this.lastResult = lastResult;
+    }
+};
+
+let logic = {
+    add: function(arg1, arg2){
+        return (arg1+arg2);
     },
-    update_one: function(position, todoText){
-        this.todos[position] = todoText;
+    subtract: function(arg1,arg2){
+        return (arg1-arg2);
     },
-    delete_one: function(position){
-        this.todos.splice(position,1);
+    multiply: function(arg1,arg2){
+        return arg1 * arg2;
+    },
+    divide: function(arg1, arg2){
+        return arg1/arg2;
     }
 };
 
 
 let view = {
-    read_all: function(items){
-        var todosUl = document.querySelector('ul');
-        todosUl.innerHTML = ''; //will clear out the ul before adding
-
-        for ( var i = 0; i < items.length ; i++){
-          var todoLi = document.createElement('li');
-          todoLi.textContent = items[i];
-          todosUl.appendChild(todoLi);
-        }
+    display: function(result){
+        var displayResult = document.getElementById("result-text");
+        displayResult.textContent = result;
     }
 };
