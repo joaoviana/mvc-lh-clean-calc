@@ -35,7 +35,6 @@ let handler = {
     },
     set_last_result: function(){
         var newLastResult = document.getElementById('set-last-result');
-        console.log(newLastResult);
         controller.set_last_result(newLastResult.valueAsNumber);
     }
 
@@ -93,9 +92,6 @@ let model = {
     set_last_result: function(lastResult){
         this.lastResult = lastResult;
     }, 
-    getLastResult: function() {
-        return Number(raw_last_result);
-    },
     add_call: function(operation, arg1, arg2, result){
         switch (operation) {
             case 'add':
