@@ -92,10 +92,8 @@ let model = {
     },
     set_last_result: function(lastResult){
         this.lastResult = lastResult;
-        fs.writeFileSync(path.join(__dirname, '../db.txt'), lastResult);
     }, 
     getLastResult: function() {
-    	var raw_last_result = fs.readFileSync(path.join(__dirname, '../db.txt'), 'utf8');
         return Number(raw_last_result);
     },
     add_call: function(operation, arg1, arg2, result){
