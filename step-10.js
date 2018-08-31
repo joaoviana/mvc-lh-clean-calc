@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
 let handler = {
     test: function(button){
         var check = document.getElementById("checked").checked;
